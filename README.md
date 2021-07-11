@@ -1,6 +1,8 @@
 # QuickMaths game in TypeScript / React
 ### Author: Eric Andrés Jardón Chao
 
+A simple math game inspired by a Revelian's Cognify minigames.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 
