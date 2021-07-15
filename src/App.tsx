@@ -1,29 +1,50 @@
-import React, { useState, FC } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { getRandomOperation } from './utils/math'
 import { Addition, Product, Division } from './utils/math';
 import ScoreTag from './components/ScoreTag/ScoreTag';
 import Bubble from './components/Bubble/Bubble'
 import Timebox from './components/Timebox/Timebox';
+import GameMenu from './components/GameMenu/GameMenu';
+import { getTargetNumber } from './utils/math';
+
 
 const App: FC<any> = () => {
 
-  const [gameStatus, setGameStatus] = useState<string>("idle");
+  const [gameStatus, setGameStatus] = useState<string>("active");
   const [operations, setOperations] = useState<Addition[] | Product[] | Division[]>([]);
   const [score, setScore] = useState<number>(0);
+  const [currentTarget, setCurrentTarget] = useState<number>(0)
 
+  useEffect(() => {
+    console.log("Generate new round");
+    generateNewRound();
+  }, [])
 
   const getNewOperation = () => {
-    const new_list: Addition[] | Product[] | Division[] = [...operations];
+    const newList: Addition[] | Product[] | Division[] = [...operations];
 
-    const target = Math.ceil(Math.random() * 100 + 1);
-    console.log("target:", target);
-    const op: Addition | Product | Division = getRandomOperation(target);
-    new_list.push(op);
-    setOperations(new_list);
+    const op: Addition | Product | Division = getRandomOperation(currentTarget);
+    newList.push(op);
+    setOperations(newList);
   }
 
   const resetOperations = () => {
     setOperations([]);
+  }
+
+  const generateNewRound = () => {
+    let target: number = getTargetNumber();
+
+    setCurrentTarget(target);
+  }
+
+  const deleteBubble = (id: number) => {
+    const newList = operations.filter((op, index) => id !== index);
+    setOperations(newList);
+  }
+
+  const roundHasEnded = () => {
+    setGameStatus("endRound");
   }
 
   return (
@@ -39,13 +60,15 @@ const App: FC<any> = () => {
 
       <main>
         <div id="bubbles-container">
-          {operations.map(op => (
-            <Bubble operation={op} />
+          <GameMenu status={gameStatus} />
+
+          {gameStatus === "active" && operations.map((op, index) => (
+            <Bubble operation={op} lifespan={4} selfDestruct={() => deleteBubble(index)} />
           ))}
         </div>
 
         <section id="bottom-bar" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Timebox />
+          <Timebox target={currentTarget} roundHasEnded={roundHasEnded} />
           <ScoreTag score={score} />
         </section>
       </main>

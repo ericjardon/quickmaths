@@ -5,11 +5,24 @@
 }
 
 .timebarParent {
-    background-color: black;
-    width: 210px;
-    height:32px;
+    background-color: dimgrey;
+    width: 400px;
+    height:24px;
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 8px;
 }
 
 .timebar {
+    height: 8px;
+    position:relative;
     background-color:dodgerblue;
+}
+
+.targetText {
+    color: white;
+    font-weight: 700;
+    width:100%;
+    text-align: center;
 }

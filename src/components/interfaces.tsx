@@ -6,8 +6,15 @@ export interface ScoreTagProps {
 
 export interface BubbleProps {
     operation: Addition | Division | Product;
+    lifespan: number;
+    selfDestruct: () => void;
 }
 
 export interface TimeBoxProps {
     target: number;
+    roundHasEnded: () => void;
+}
+
+export interface GameMenuProps {
+    status: string;
 }

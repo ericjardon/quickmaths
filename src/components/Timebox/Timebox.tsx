@@ -1,41 +1,40 @@
-import React, { useState, useEffect } from 'react'
-import { classicNameResolver } from 'typescript';
-import { getTargetNumber } from '../../utils/math';
+import React, { useState, useEffect, FC } from 'react'
+import { TimeBoxProps } from '../interfaces';
 import styles from './timebox.module.css'
 
 const roundSeconds = 15;
 
-const Timebox = () => {
+const Timebox: FC<TimeBoxProps> = ({
+    target,
+    roundHasEnded,
+}) => {
 
     const [timer, setTimer] = useState<number>(roundSeconds);
-    const [target, setTarget] = useState<number>();
-
 
     const calculatedWidth = `${Math.floor((timer / roundSeconds) * 100)}%`
 
     useEffect(() => {
-        const target = getTargetNumber();
-        setTarget(target);
-    }, [])
 
-    useEffect(() => {
-        console.log("Timer", timer);
-        let timerId: any = null;
         if (timer > 0) {
-            timerId = setTimeout(() => setTimer(timer => timer - 1), 1000);
-        }
-
-        return () => {
-            clearTimeout(timerId);
+            const timerId = setTimeout(() => {
+                setTimer(timer => timer - 0.25)
+            }, 250);
+            return () => {
+                clearTimeout(timerId);
+            }
+        } else {
+            roundHasEnded();
         }
 
     }, [timer]);
 
     return (
         <div className={styles.timebox}>
-            <p>{target}</p>
+            <p className={styles.targetText}>{target}</p>
             <div className={styles.timebarParent}>
-                <span className={styles.timebar} style={{ width: calculatedWidth }}></span>
+                <div className={styles.timebar} style={{ width: calculatedWidth }}>
+                    &nbsp;
+                </div>
             </div>
         </div>
     )

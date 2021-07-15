@@ -1,0 +1,13 @@
+
+.endRound {
+    background-color:lightgray;
+    width: 400px;
+    height: 128px;
+    padding:32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:dodgerblue;
+    font-weight: 700;
+    font-size: 32px;
+}

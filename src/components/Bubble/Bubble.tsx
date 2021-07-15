@@ -27,10 +27,13 @@ function getRandomPosition() {
 
 const Bubble: FC<BubbleProps> = ({
     operation,
+    lifespan,
+    selfDestruct,
 }) => {
-    const [color, setColor] = useState("F0F0F0");
-    const [x, setX] = useState(0);
-    const [y, setY] = useState(0);
+    const [color, setColor] = useState<string>("F0F0F0");
+    const [x, setX] = useState<number>(0);
+    const [y, setY] = useState<number>(0);
+    const [ttl, setTTL] = useState<number>(lifespan);
 
 
     useEffect(() => {
@@ -40,6 +43,21 @@ const Bubble: FC<BubbleProps> = ({
         setY(y);
     }, [])
 
+    useEffect(() => {
+        console.log("TTL", ttl);
+
+        if (ttl > 0) {
+            const timerId = setTimeout(() => {
+                setTTL(ttl => ttl - 1)
+            }, 1000);
+            return () => {
+                clearTimeout(timerId);
+            }
+        } else {
+            selfDestruct();
+        }
+
+    }, [ttl]);
 
     return (
         <div className={styles.bubble} style={{
