@@ -1,0 +1,15 @@
+.timebox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.timebarParent {
+    background-color: black;
+    width: 210px;
+    height:32px;
+}
+
+.timebar {
+    background-color:dodgerblue;
+}

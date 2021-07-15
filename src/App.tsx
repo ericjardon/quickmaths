@@ -3,11 +3,14 @@ import { getRandomOperation } from './utils/math'
 import { Addition, Product, Division } from './utils/math';
 import ScoreTag from './components/ScoreTag/ScoreTag';
 import Bubble from './components/Bubble/Bubble'
+import Timebox from './components/Timebox/Timebox';
 
 const App: FC<any> = () => {
 
   const [gameStatus, setGameStatus] = useState<string>("idle");
   const [operations, setOperations] = useState<Addition[] | Product[] | Division[]>([]);
+  const [score, setScore] = useState<number>(0);
+
 
   const getNewOperation = () => {
     const new_list: Addition[] | Product[] | Division[] = [...operations];
@@ -25,29 +28,25 @@ const App: FC<any> = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Quick Maths Game</h1>
-        <button onClick={resetOperations}>Reset Operations</button>
-      </header>
-      <main>
-        <section id="ops-list">
-          <button onClick={getNewOperation}>New Operation</button>
-          <ul className="list">
-            {
-              operations.map(op => (
-                <li>{op.toString()}</li>
-              ))}
-          </ul>
-        </section>
 
-        <div className="bubbles-container" style={{ height: "60vh", width: "100%", background: "#0E7931" }}>
+      <header className="App-header">
+        <h3 style={{ marginLeft: '16px' }}>Quick Maths Game</h3>
+        <nav className="App-nav">
+          <button onClick={resetOperations}>Reset Operations</button>
+          <button onClick={getNewOperation}>New Operation</button>
+        </nav>
+      </header>
+
+      <main>
+        <div id="bubbles-container">
           {operations.map(op => (
             <Bubble operation={op} />
           ))}
         </div>
 
         <section id="bottom-bar" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-          <ScoreTag score={188} />
+          <Timebox />
+          <ScoreTag score={score} />
         </section>
       </main>
     </div>

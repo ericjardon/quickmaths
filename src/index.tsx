@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './global.css';
 import App from './App';
 
 ReactDOM.render(
@@ -10,3 +10,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+/* React Component Tree Entrypoint */

@@ -115,6 +115,10 @@ export const test = () => {
     console.log(m.toString(), " = ", m.result);
 }
 
-test();
 
-// tsc math.ts | node math.js
+export const getTargetNumber = () => {
+    const val = Math.floor(Math.random() * 1000);
+    const sign = Math.random() < 0.5 ? -1 : 1
+
+    return sign * val;
+}

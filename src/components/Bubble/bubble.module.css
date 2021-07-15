@@ -1,0 +1,11 @@
+.bubble {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display:inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bubble-text {
+}
