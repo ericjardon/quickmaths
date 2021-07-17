@@ -9,18 +9,19 @@ import { Addition, Division, Product, getTargetNumber, getRandomOperation } from
 
 const App: FC<any> = () => {
 
-  const [gameStatus, setGameStatus] = useState<string>("active");
+  const [gameStatus, setGameStatus] = useState<string>("welcome"); // 'welcome' | 'active' | 'endRound'
   const [bubbles, setBubbles] = useState<number[]>([]); //Addition[] | Division[] | Product[]
   const [bubbleKey, setBubbleKey] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [currentTarget, setCurrentTarget] = useState<number>(0);
   const [currentRound, setCurrentRound] = useState<number>(0);  // increasing difficulty
   const [multiplier, setMultiplier] = useState<number>(0);
+  const [bubbleLifespan, setBubbleLifespan] = useState<number>(4);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log("Generate new round");
     generateNewRound();
-  }, [])
+  }, []) */
 
 
   /* Note: setInterval is a function of the window object. Whichever callback we pass to it, it will contain
@@ -37,6 +38,7 @@ const App: FC<any> = () => {
     setCurrentRound(currentRound => currentRound + 1);
 
     let target: number = getTargetNumber();
+    console.log("Starting round");
     setGameStatus("active");
     setCurrentTarget(target);
     console.log("Next round! Target=", target);
@@ -50,6 +52,7 @@ const App: FC<any> = () => {
   }
 
   const roundHasEnded = () => {
+    console.log("Round has ended");
     setGameStatus("endRound");
   }
 
@@ -58,12 +61,14 @@ const App: FC<any> = () => {
     setScore(score => score + points);
   }
 
-  /* console.log("Re render with bubbles:", bubbles);
-  console.log("Current key", bubbleKey); */
 
   if (gameStatus === "dev")
     return (
       <div className="App" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+        <nav className="App-nav">
+          <button onClick={resetBubbles}>Reset bubbles</button>
+          <button onClick={getNewBubble}>New Operation</button>
+        </nav>
         <Bubble key={1} target={currentTarget} lifespan={10} addToScore={addToScore} multiplier={multiplier} />
       </div>
     )
@@ -72,10 +77,6 @@ const App: FC<any> = () => {
 
       <header className="App-header">
         <h3 style={{ marginLeft: '16px' }}>Quick Maths Game</h3>
-        <nav className="App-nav">
-          <button onClick={resetBubbles}>Reset bubbles</button>
-          <button onClick={getNewBubble}>New Operation</button>
-        </nav>
       </header>
 
       <main>
@@ -83,13 +84,17 @@ const App: FC<any> = () => {
           <GameMenu status={gameStatus} round={currentRound} startNextRound={generateNewRound} />
 
           {gameStatus === "active" && bubbles.map((bkey, index) => (
-            <Bubble key={index} target={currentTarget} lifespan={4} addToScore={addToScore} multiplier={multiplier} />
+            <Bubble key={index} target={currentTarget} lifespan={bubbleLifespan} addToScore={addToScore} multiplier={multiplier} />
           ))}
         </div>
 
-        <section id="bottom-bar" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Timebox target={currentTarget} roundHasEnded={roundHasEnded} createBubble={getNewBubble} />
-          <ScoreTag score={score} />
+        <section id="bottom-bar">
+          <div style={{ width: '80%' }}>
+            <Timebox status={gameStatus} target={currentTarget} roundHasEnded={roundHasEnded} createBubble={getNewBubble} />
+          </div>
+          <div style={{ width: '20%', paddingTop: '25px' }}>
+            <ScoreTag score={score} />
+          </div>
         </section>
       </main>
     </div>

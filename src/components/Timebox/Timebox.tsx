@@ -5,6 +5,7 @@ import styles from './timebox.module.css'
 const roundSeconds = 15;
 
 const Timebox: FC<TimeBoxProps> = ({
+    status,
     target,
     roundHasEnded,
     createBubble,
@@ -16,6 +17,7 @@ const Timebox: FC<TimeBoxProps> = ({
     }, [target])
 
     useEffect(() => {
+        if (status !== 'active') return;
 
         if (timer > 0) {
 
@@ -30,11 +32,12 @@ const Timebox: FC<TimeBoxProps> = ({
             return () => {
                 clearTimeout(timerId);
             }
-        } else {
+        }
+        if (timer === 0 && status === 'active') {
             roundHasEnded();
         }
 
-    }, [timer]);
+    }, [timer, status]);
 
     const calculatedWidth = `${Math.floor((timer / roundSeconds) * 100)}%`;
 

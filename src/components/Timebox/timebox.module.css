@@ -1,7 +1,8 @@
 .timebox {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .timebarParent {
@@ -20,7 +21,9 @@
 }
 
 .targetText {
-    color: white;
+    color:red;
+    margin: 0;
+    font-size: 44px;
     font-weight: 700;
     width:100%;
     text-align: center;

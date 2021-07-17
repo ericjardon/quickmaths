@@ -7,8 +7,8 @@ const ScoreTag: FC<ScoreTagProps> = ({
     score,
 }) => {
     return (
-        <div style={{ display: 'inline-flex', alignItems: 'center', fontSize: '22px', color: '#fff' }}>
-            Score: <span style={{ marginLeft: '8px', marginRight: '4px', color: '#DAA520' }}><BsStarFill /></span> {score}
+        <div className={styles.scoretag}>
+            Score: <span className={styles.star}><BsStarFill /></span> {score}
         </div>
     )
 }

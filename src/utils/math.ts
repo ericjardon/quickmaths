@@ -209,5 +209,3 @@ export const getTargetNumber = () => {
 
     return sign * val;
 }
-
-test();

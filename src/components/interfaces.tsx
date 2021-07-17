@@ -12,6 +12,7 @@ export interface BubbleProps {
 }
 
 export interface TimeBoxProps {
+    status: string;
     target: number;
     createBubble: () => void;
     roundHasEnded: () => void;

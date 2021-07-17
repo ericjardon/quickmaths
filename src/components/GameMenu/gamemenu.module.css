@@ -4,12 +4,33 @@
     width: 360px;
     height: 128px;
     padding:32px;
+    border-radius: 6px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     flex-direction: column;
     color:dodgerblue;
     font-weight: 700;
     font-size: 36px;
+
+}
+
+.endRound p {
+    margin: 0;
+}
+
+
+.welcomeMenu {
+    background-color:lightgray;
+    width: auto;
+    height: auto;
+    padding: 32px;
     border-radius: 6px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.welcomeMenu ul {
+    font-size: 22px;
 }

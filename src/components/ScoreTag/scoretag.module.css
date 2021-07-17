@@ -1,0 +1,13 @@
+.scoretag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 22px;
+    color: #fff;
+}
+
+.star {
+    margin-left: 8px;
+    margin-right: 4px;
+    color: #DAA520;
+    
+}
