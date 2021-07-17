@@ -60,7 +60,6 @@ const Bubble: FC<BubbleProps> = ({
         } else if (ttl === 0) {
             selfDestruct();
         }
-
     }, [ttl]);
 
 

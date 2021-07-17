@@ -7,6 +7,7 @@ const roundSeconds = 15;
 const Timebox: FC<TimeBoxProps> = ({
     target,
     roundHasEnded,
+    createBubble,
 }) => {
 
     const [timer, setTimer] = useState<number>(0);
@@ -17,6 +18,12 @@ const Timebox: FC<TimeBoxProps> = ({
     useEffect(() => {
 
         if (timer > 0) {
+
+            if ((timer * 1000) % 2000 === 0) {
+                console.log("Timebox creates bubble");
+                createBubble();
+            }
+
             const timerId = setTimeout(() => {
                 setTimer(timer => timer - 0.25)
             }, 250);

@@ -16,26 +16,14 @@ const App: FC<any> = () => {
   const [currentTarget, setCurrentTarget] = useState<number>(0);
   const [currentRound, setCurrentRound] = useState<number>(5);  // increasing difficulty
 
-
   useEffect(() => {
     console.log("Generate new round");
     generateNewRound();
   }, [])
 
 
-  useEffect(() => {
-    console.log("Start interval effect")
-    if (gameStatus === "active") {
-      const interval = setInterval(getNewBubble, 1500);
-
-      // Clear the interval on unmount
-      return () => clearInterval(interval);
-    } else {
-      console.log("Bubble generation stopped");
-    }
-
-  }, [gameStatus])
-
+  /* Note: setInterval is a function of the window object. Whichever callback we pass to it, it will contain
+  static values that are not updated regardless of React logic. Better to use timeouts for every change. */
 
   const resetBubbles = () => {
     console.log("Reset bubbles");
@@ -51,54 +39,55 @@ const App: FC<any> = () => {
   }
 
   const getNewBubble = () => {
-    console.log("get new bubble...");
-    setBubbles([...bubbles, bubbleKey + 1]);
-    setBubbleKey(bubbleKey => bubbleKey + 1);
+    console.log("apend new bubble...");
+    let k = bubbleKey + 1;
+    setBubbles([...bubbles, k]);
+    setBubbleKey(k);
   }
 
   const deleteBubble = () => {
-    const _bubbles = [...bubbles]
-    _bubbles.shift();
-    setBubbles(_bubbles);
+    console.log("pop first bubble...");
+    setBubbles(bubbles.slice(1));
   }
 
   const roundHasEnded = () => {
     setGameStatus("endRound");
   }
 
-  console.log("Re render with bubbles", bubbles);
+  console.log("Re render with bubbles:", bubbles);
+  console.log("Current key", bubbleKey);
 
-  if (gameStatus !== "dev")
+  if (gameStatus === "dev")
     return (
-      <div className="App">
-
-        <header className="App-header">
-          <h3 style={{ marginLeft: '16px' }}>Quick Maths Game</h3>
-          <nav className="App-nav">
-            <button onClick={resetBubbles}>Reset bubbles</button>
-            <button onClick={getNewBubble}>New Operation</button>
-          </nav>
-        </header>
-
-        <main>
-          <div id="bubbles-container">
-            <GameMenu status={gameStatus} startNextRound={generateNewRound} />
-
-            {gameStatus === "active" && bubbles.map((bkey, index) => (
-              <Bubble key={bkey} target={currentTarget} lifespan={4} selfDestruct={() => deleteBubble()} />
-            ))}
-          </div>
-
-          <section id="bottom-bar" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Timebox target={currentTarget} roundHasEnded={roundHasEnded} />
-            <ScoreTag score={score} />
-          </section>
-        </main>
+      <div className="App" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+        <GameMenu status={"endRound"} startNextRound={generateNewRound} />PachisPachis
       </div>
     )
   else return (
-    <div className="App" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-      <GameMenu status={"endRound"} startNextRound={generateNewRound} />PachisPachis
+    <div className="App">
+
+      <header className="App-header">
+        <h3 style={{ marginLeft: '16px' }}>Quick Maths Game</h3>
+        <nav className="App-nav">
+          <button onClick={resetBubbles}>Reset bubbles</button>
+          <button onClick={getNewBubble}>New Operation</button>
+        </nav>
+      </header>
+
+      <main>
+        <div id="bubbles-container">
+          <GameMenu status={gameStatus} startNextRound={generateNewRound} />
+
+          {gameStatus === "active" && bubbles.map((bkey, index) => (
+            <Bubble key={index} target={currentTarget} lifespan={4} selfDestruct={() => deleteBubble()} />
+          ))}
+        </div>
+
+        <section id="bottom-bar" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Timebox target={currentTarget} roundHasEnded={roundHasEnded} createBubble={getNewBubble} />
+          <ScoreTag score={score} />
+        </section>
+      </main>
     </div>
   )
 }
