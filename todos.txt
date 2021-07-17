@@ -1,6 +1,4 @@
 July 16
 - Implement score counting...DONE
+- Implement scoreboard using a txt or external database...
 - Implement increasing difficulty: lifespan shorter, interval shorter, as number round goes up
-
-
-Stack is not working for visual bubbles, we shall proceed with just disabling their display,
