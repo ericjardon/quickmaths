@@ -5,8 +5,9 @@ export interface ScoreTagProps {
 }
 
 export interface BubbleProps {
-    operation: Addition | Division | Product;
+    target: number,
     lifespan: number;
+    //operation: Addition | Division | Product;
     selfDestruct: () => void;
 }
 
@@ -17,4 +18,5 @@ export interface TimeBoxProps {
 
 export interface GameMenuProps {
     status: string;
+    startNextRound: () => void;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from 'react'
-//import { Addition, Division, Product } from '../../utils/math'
+import { Addition, Division, getRandomOperation, Product } from '../../utils/math'
 import { BubbleProps } from '../interfaces'
 import styles from './bubble.module.css';
 
@@ -26,7 +26,8 @@ function getRandomPosition() {
 }
 
 const Bubble: FC<BubbleProps> = ({
-    operation,
+    //operation,
+    target,
     lifespan,
     selfDestruct,
 }) => {
@@ -34,18 +35,21 @@ const Bubble: FC<BubbleProps> = ({
     const [x, setX] = useState<number>(0);
     const [y, setY] = useState<number>(0);
     const [ttl, setTTL] = useState<number>(lifespan);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [operation, setOperation] = useState<Addition | Product | Division>(getRandomOperation(target))
+    const [visible, setVisible] = useState(false);
 
-
+    /* On Mount */
     useEffect(() => {
         setColor(getRandomColor());
         const { x, y } = getRandomPosition();
         setX(x);
         setY(y);
+        setVisible(true);
     }, [])
 
+    /* Bubble Countdown Timer */
     useEffect(() => {
-        console.log("TTL", ttl);
-
         if (ttl > 0) {
             const timerId = setTimeout(() => {
                 setTTL(ttl => ttl - 1)
@@ -53,11 +57,12 @@ const Bubble: FC<BubbleProps> = ({
             return () => {
                 clearTimeout(timerId);
             }
-        } else {
+        } else if (ttl === 0) {
             selfDestruct();
         }
 
     }, [ttl]);
+
 
     return (
         <div className={styles.bubble} style={{
@@ -66,7 +71,7 @@ const Bubble: FC<BubbleProps> = ({
             right: x,
             background: color,
         }}>
-            <label className={styles['bubble-text']}>
+            <label className={visible ? styles['bubble-text'] : styles['invisible']}>
                 {operation.toString()}
             </label>
         </div>
@@ -77,4 +82,3 @@ const Bubble: FC<BubbleProps> = ({
 
 
 export default Bubble;
-

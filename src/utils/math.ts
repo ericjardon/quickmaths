@@ -60,7 +60,6 @@ export class Product {
                 factors.push(i);
             }
         }
-        console.log("Factors of ", target, "are: ", factors);
         return factors;
     }
 

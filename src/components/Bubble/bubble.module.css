@@ -8,4 +8,10 @@
 }
 
 .bubble-text {
+    color: #fff;
+    font-weight: 700;
+}
+
+.invisible {
+    visibility: hidden;
 }

@@ -4,6 +4,7 @@ import styles from './gamemenu.module.css';
 
 const GameMenu: FC<GameMenuProps> = ({
     status,
+    startNextRound,
 }) => {
 
     if (status === "active")
@@ -15,6 +16,8 @@ const GameMenu: FC<GameMenuProps> = ({
         return (
             <div className={styles.endRound}>
                 Time's Up!
+
+                <button onClick={() => startNextRound()}>Next Round</button>
             </div>
         )
 

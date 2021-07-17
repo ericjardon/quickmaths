@@ -9,9 +9,10 @@ const Timebox: FC<TimeBoxProps> = ({
     roundHasEnded,
 }) => {
 
-    const [timer, setTimer] = useState<number>(roundSeconds);
-
-    const calculatedWidth = `${Math.floor((timer / roundSeconds) * 100)}%`
+    const [timer, setTimer] = useState<number>(0);
+    useEffect(() => {
+        setTimer(roundSeconds);
+    }, [target])
 
     useEffect(() => {
 
@@ -28,11 +29,17 @@ const Timebox: FC<TimeBoxProps> = ({
 
     }, [timer]);
 
+    const calculatedWidth = `${Math.floor((timer / roundSeconds) * 100)}%`;
+
     return (
         <div className={styles.timebox}>
             <p className={styles.targetText}>{target}</p>
             <div className={styles.timebarParent}>
-                <div className={styles.timebar} style={{ width: calculatedWidth }}>
+                <div className={styles.timebar}
+                    style={{
+                        width: calculatedWidth,
+                        backgroundColor: timer < Math.floor(roundSeconds / 3.0) ? 'red' : 'dodgerblue'
+                    }}>
                     &nbsp;
                 </div>
             </div>

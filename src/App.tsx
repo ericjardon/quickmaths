@@ -1,79 +1,106 @@
 import React, { useState, useEffect, FC } from 'react';
-import { getRandomOperation } from './utils/math'
-import { Addition, Product, Division } from './utils/math';
 import ScoreTag from './components/ScoreTag/ScoreTag';
 import Bubble from './components/Bubble/Bubble'
 import Timebox from './components/Timebox/Timebox';
 import GameMenu from './components/GameMenu/GameMenu';
-import { getTargetNumber } from './utils/math';
+
+import { Addition, Division, Product, getTargetNumber, getRandomOperation } from './utils/math';
 
 
 const App: FC<any> = () => {
 
   const [gameStatus, setGameStatus] = useState<string>("active");
-  const [operations, setOperations] = useState<Addition[] | Product[] | Division[]>([]);
+  const [bubbles, setBubbles] = useState<number[]>([]); //Addition[] | Division[] | Product[]
+  const [bubbleKey, setBubbleKey] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
-  const [currentTarget, setCurrentTarget] = useState<number>(0)
+  const [currentTarget, setCurrentTarget] = useState<number>(0);
+  const [currentRound, setCurrentRound] = useState<number>(5);  // increasing difficulty
+
 
   useEffect(() => {
     console.log("Generate new round");
     generateNewRound();
   }, [])
 
-  const getNewOperation = () => {
-    const newList: Addition[] | Product[] | Division[] = [...operations];
 
-    const op: Addition | Product | Division = getRandomOperation(currentTarget);
-    newList.push(op);
-    setOperations(newList);
-  }
+  useEffect(() => {
+    console.log("Start interval effect")
+    if (gameStatus === "active") {
+      const interval = setInterval(getNewBubble, 1500);
 
-  const resetOperations = () => {
-    setOperations([]);
+      // Clear the interval on unmount
+      return () => clearInterval(interval);
+    } else {
+      console.log("Bubble generation stopped");
+    }
+
+  }, [gameStatus])
+
+
+  const resetBubbles = () => {
+    console.log("Reset bubbles");
+    setBubbles([]);
   }
 
   const generateNewRound = () => {
+    console.log("Next round!");
     let target: number = getTargetNumber();
-
+    setGameStatus("active");
     setCurrentTarget(target);
+    resetBubbles();
   }
 
-  const deleteBubble = (id: number) => {
-    const newList = operations.filter((op, index) => id !== index);
-    setOperations(newList);
+  const getNewBubble = () => {
+    console.log("get new bubble...");
+    setBubbles([...bubbles, bubbleKey + 1]);
+    setBubbleKey(bubbleKey => bubbleKey + 1);
+  }
+
+  const deleteBubble = () => {
+    const _bubbles = [...bubbles]
+    _bubbles.shift();
+    setBubbles(_bubbles);
   }
 
   const roundHasEnded = () => {
     setGameStatus("endRound");
   }
 
-  return (
-    <div className="App">
+  console.log("Re render with bubbles", bubbles);
 
-      <header className="App-header">
-        <h3 style={{ marginLeft: '16px' }}>Quick Maths Game</h3>
-        <nav className="App-nav">
-          <button onClick={resetOperations}>Reset Operations</button>
-          <button onClick={getNewOperation}>New Operation</button>
-        </nav>
-      </header>
+  if (gameStatus !== "dev")
+    return (
+      <div className="App">
 
-      <main>
-        <div id="bubbles-container">
-          <GameMenu status={gameStatus} />
+        <header className="App-header">
+          <h3 style={{ marginLeft: '16px' }}>Quick Maths Game</h3>
+          <nav className="App-nav">
+            <button onClick={resetBubbles}>Reset bubbles</button>
+            <button onClick={getNewBubble}>New Operation</button>
+          </nav>
+        </header>
 
-          {gameStatus === "active" && operations.map((op, index) => (
-            <Bubble operation={op} lifespan={4} selfDestruct={() => deleteBubble(index)} />
-          ))}
-        </div>
+        <main>
+          <div id="bubbles-container">
+            <GameMenu status={gameStatus} startNextRound={generateNewRound} />
 
-        <section id="bottom-bar" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Timebox target={currentTarget} roundHasEnded={roundHasEnded} />
-          <ScoreTag score={score} />
-        </section>
-      </main>
+            {gameStatus === "active" && bubbles.map((bkey, index) => (
+              <Bubble key={bkey} target={currentTarget} lifespan={4} selfDestruct={() => deleteBubble()} />
+            ))}
+          </div>
+
+          <section id="bottom-bar" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Timebox target={currentTarget} roundHasEnded={roundHasEnded} />
+            <ScoreTag score={score} />
+          </section>
+        </main>
+      </div>
+    )
+  else return (
+    <div className="App" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+      <GameMenu status={"endRound"} startNextRound={generateNewRound} />PachisPachis
     </div>
-  );
+  )
 }
 
 export default App;
