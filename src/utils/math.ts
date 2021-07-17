@@ -131,13 +131,11 @@ export class Product {
         // Generate error of +/- 3 with 0.5 probability on either operand
         if (Math.random() < 0.5) {
 
-            const randomError = random(errVariance) * randomSign();
-
             // Tweak operand A or operand B
             if (Math.random() < errProbability) {
-                this.operandA = this.operandA + randomError;
+                this.operandA = this.operandA + 1;
             } else {
-                this.operandB = this.operandB + randomError;
+                this.operandB = this.operandB * randomSign();
             }
         }
 
