@@ -3,3 +3,6 @@ July 16
 - Implement bubble Self Destruct (hide display instead of delete) ...DONE;
 - Implement automatic bubble generation
 - Implement score counting
+
+
+Stack is not working for visual bubbles, we shall proceed with just disabling their display,

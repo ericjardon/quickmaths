@@ -56,7 +56,7 @@ export class Product {
         let factors = [1];
         const ceil = Math.ceil(target ** 0.5)
         for (let i = 2; i <= ceil; i++) {
-            if (target % i == 0) {
+            if (target % i === 0) {
                 factors.push(i);
             }
         }
@@ -80,10 +80,6 @@ export class Product {
     toString() {
         return `${this.operandA < 0 ? '(' : ''}${this.operandA}${this.operandA < 0 ? ')' : ''} \u00d7 ${this.operandB < 0 ? '(' : ''}${this.operandB}${this.operandB < 0 ? ')' : ''}`;
     }
-}
-
-function greeter(fn: (a: string) => void) {
-    fn("Hello, World");
 }
 
 export const getRandomOperation = (target: number) => {

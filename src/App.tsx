@@ -14,7 +14,8 @@ const App: FC<any> = () => {
   const [bubbleKey, setBubbleKey] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [currentTarget, setCurrentTarget] = useState<number>(0);
-  const [currentRound, setCurrentRound] = useState<number>(5);  // increasing difficulty
+  const [currentRound, setCurrentRound] = useState<number>(0);  // increasing difficulty
+  const [multiplier, setMultiplier] = useState<number>(0);
 
   useEffect(() => {
     console.log("Generate new round");
@@ -31,36 +32,39 @@ const App: FC<any> = () => {
   }
 
   const generateNewRound = () => {
-    console.log("Next round!");
+
+    setMultiplier(multiplier => (currentRound + 1) * 10);
+    setCurrentRound(currentRound => currentRound + 1);
+
     let target: number = getTargetNumber();
     setGameStatus("active");
     setCurrentTarget(target);
+    console.log("Next round! Target=", target);
     resetBubbles();
   }
 
   const getNewBubble = () => {
-    console.log("apend new bubble...");
     let k = bubbleKey + 1;
     setBubbles([...bubbles, k]);
     setBubbleKey(k);
-  }
-
-  const deleteBubble = () => {
-    console.log("pop first bubble...");
-    setBubbles(bubbles.slice(1));
   }
 
   const roundHasEnded = () => {
     setGameStatus("endRound");
   }
 
-  console.log("Re render with bubbles:", bubbles);
-  console.log("Current key", bubbleKey);
+  const addToScore = (points: number) => {
+    console.log("Add to score:", points);
+    setScore(score => score + points);
+  }
+
+  /* console.log("Re render with bubbles:", bubbles);
+  console.log("Current key", bubbleKey); */
 
   if (gameStatus === "dev")
     return (
       <div className="App" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-        <GameMenu status={"endRound"} startNextRound={generateNewRound} />PachisPachis
+        <Bubble key={1} target={currentTarget} lifespan={10} addToScore={addToScore} multiplier={multiplier} />
       </div>
     )
   else return (
@@ -76,10 +80,10 @@ const App: FC<any> = () => {
 
       <main>
         <div id="bubbles-container">
-          <GameMenu status={gameStatus} startNextRound={generateNewRound} />
+          <GameMenu status={gameStatus} round={currentRound} startNextRound={generateNewRound} />
 
           {gameStatus === "active" && bubbles.map((bkey, index) => (
-            <Bubble key={index} target={currentTarget} lifespan={4} selfDestruct={() => deleteBubble()} />
+            <Bubble key={index} target={currentTarget} lifespan={4} addToScore={addToScore} multiplier={multiplier} />
           ))}
         </div>
 
@@ -93,6 +97,3 @@ const App: FC<any> = () => {
 }
 
 export default App;
-/*COLORS
-#0E7931 green
-*/

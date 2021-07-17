@@ -26,10 +26,10 @@ function getRandomPosition() {
 }
 
 const Bubble: FC<BubbleProps> = ({
-    //operation,
     target,
     lifespan,
-    selfDestruct,
+    addToScore,
+    multiplier,
 }) => {
     const [color, setColor] = useState<string>("F0F0F0");
     const [x, setX] = useState<number>(0);
@@ -38,15 +38,16 @@ const Bubble: FC<BubbleProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [operation, setOperation] = useState<Addition | Product | Division>(getRandomOperation(target))
     const [visible, setVisible] = useState(false);
+    const [active, setActive] = useState(true);
 
-    /* On Mount */
+    /* Set color and position on Mount */
     useEffect(() => {
         setColor(getRandomColor());
         const { x, y } = getRandomPosition();
         setX(x);
         setY(y);
         setVisible(true);
-    }, [])
+    }, []);
 
     /* Bubble Countdown Timer */
     useEffect(() => {
@@ -62,18 +63,41 @@ const Bubble: FC<BubbleProps> = ({
         }
     }, [ttl]);
 
+    const selfDestruct = () => {
+        // change class to hide
+        setActive(false);
+    }
+
+    const handleBubbleClick = () => {
+        console.log(`Clicked: <${operation.toString()}> = ${operation.result}`)
+
+        if (operation.result === target) {
+            console.log("CORRECT")
+            addToScore(multiplier);
+        } else {
+            console.log("INCORRECT");
+            addToScore(-1);
+        }
+        setActive(false);
+    }
+
 
     return (
-        <div className={styles.bubble} style={{
-            position: 'absolute',
-            top: y,
-            right: x,
-            background: color,
-        }}>
-            <label className={visible ? styles['bubble-text'] : styles['invisible']}>
-                {operation.toString()}
-            </label>
-        </div>
+        active ? (
+            <div className={styles.bubble} onClick={handleBubbleClick}
+                style={{
+                    position: 'absolute',
+                    top: y,
+                    right: x,
+                    background: color,
+                }}>
+                <label className={visible ? styles['bubble-text'] : styles['invisible']}>
+                    {operation.toString()}
+                </label>
+            </div>
+        ) : (
+            <></>
+        )
     )
 }
 
