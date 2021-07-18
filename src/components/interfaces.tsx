@@ -16,6 +16,7 @@ export interface TimeBoxProps {
     target: number;
     createBubble: () => void;
     roundHasEnded: () => void;
+    intervalSeconds: number;
 }
 
 export interface GameMenuProps {

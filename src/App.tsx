@@ -4,7 +4,7 @@ import Bubble from './components/Bubble/Bubble'
 import Timebox from './components/Timebox/Timebox';
 import GameMenu from './components/GameMenu/GameMenu';
 
-import { Addition, Division, Product, getTargetNumber, getRandomOperation } from './utils/math';
+import { getTargetNumber, intervals, lifespans } from './utils/math';
 
 
 const App: FC<any> = () => {
@@ -14,9 +14,12 @@ const App: FC<any> = () => {
   const [bubbleKey, setBubbleKey] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [currentTarget, setCurrentTarget] = useState<number>(0);
-  const [currentRound, setCurrentRound] = useState<number>(0);  // increasing difficulty
+
   const [multiplier, setMultiplier] = useState<number>(0);
-  const [bubbleLifespan, setBubbleLifespan] = useState<number>(4);
+  // Difficulty level depends on round number
+  const [currentRound, setCurrentRound] = useState<number>(0);  // increasing difficulty
+  const [bubbleLifespan, setBubbleLifespan] = useState<number>(0);
+  const [timeboxSpeed, setTimeBoxSpeed] = useState<number>(0);
 
   /* useEffect(() => {
     console.log("Generate new round");
@@ -33,6 +36,9 @@ const App: FC<any> = () => {
   }
 
   const generateNewRound = () => {
+
+    setBubbleLifespan(lifespans[currentRound]);
+    setTimeBoxSpeed(intervals[currentRound]);
 
     setMultiplier(multiplier => (currentRound + 1) * 10);
     setCurrentRound(currentRound => currentRound + 1);
@@ -61,6 +67,8 @@ const App: FC<any> = () => {
     setScore(score => score + points);
   }
 
+  console.log("bubble lifespan is now:", bubbleLifespan);
+  console.log("timebox interval is now:", timeboxSpeed);
 
   if (gameStatus === "dev")
     return (
@@ -84,13 +92,26 @@ const App: FC<any> = () => {
           <GameMenu status={gameStatus} round={currentRound} startNextRound={generateNewRound} />
 
           {gameStatus === "active" && bubbles.map((bkey, index) => (
-            <Bubble key={index} target={currentTarget} lifespan={bubbleLifespan} addToScore={addToScore} multiplier={multiplier} />
+            <Bubble
+              key={index}
+              target={currentTarget}
+              lifespan={bubbleLifespan}
+              addToScore={addToScore}
+              multiplier={multiplier} />
           ))}
         </div>
 
         <section id="bottom-bar">
-          <div style={{ width: '80%' }}>
-            <Timebox status={gameStatus} target={currentTarget} roundHasEnded={roundHasEnded} createBubble={getNewBubble} />
+          <div style={{ width: '20%', paddingTop: '25px' }}>
+            {gameStatus === 'active' && <p id="round-number">Round: {currentRound}</p>}
+          </div>
+          <div style={{ width: '60%' }}>
+            <Timebox
+              status={gameStatus}
+              target={currentTarget}
+              roundHasEnded={roundHasEnded}
+              createBubble={getNewBubble}
+              intervalSeconds={timeboxSpeed} />
           </div>
           <div style={{ width: '20%', paddingTop: '25px' }}>
             <ScoreTag score={score} />

@@ -2,26 +2,32 @@ import React, { useState, useEffect, FC } from 'react'
 import { TimeBoxProps } from '../interfaces';
 import styles from './timebox.module.css'
 
-const roundSeconds = 15;
+const roundSeconds = 20;
 
 const Timebox: FC<TimeBoxProps> = ({
     status,
     target,
     roundHasEnded,
     createBubble,
+    intervalSeconds = 2000,
 }) => {
 
     const [timer, setTimer] = useState<number>(0);
-    useEffect(() => {
-        setTimer(roundSeconds);
-    }, [target])
 
+    // Should run on every new round on status change
+    useEffect(() => {
+        if (status === 'active') {
+            setTimer(roundSeconds);
+        }
+    }, [status])
+
+    // Should update timer every second unless inactive
     useEffect(() => {
         if (status !== 'active') return;
 
         if (timer > 0) {
 
-            if ((timer * 1000) % 2000 === 0) {
+            if ((timer * 1000) % intervalSeconds === 0) {
                 console.log("Timebox creates bubble");
                 createBubble();
             }
@@ -33,11 +39,12 @@ const Timebox: FC<TimeBoxProps> = ({
                 clearTimeout(timerId);
             }
         }
+
         if (timer === 0 && status === 'active') {
             roundHasEnded();
         }
 
-    }, [timer, status]);
+    }, [timer]);
 
     const calculatedWidth = `${Math.floor((timer / roundSeconds) * 100)}%`;
 

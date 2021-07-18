@@ -25,7 +25,7 @@ const GameMenu: FC<GameMenuProps> = ({
                     <li>An incorrect bubble will decrease your score by 1 point</li>
                 </ul>
 
-                <button onClick={() => startNextRound()}>Begin</button>
+                <button onClick={() => startNextRound()}>Start Game</button>
             </div>
         )
 

@@ -209,3 +209,7 @@ export const getTargetNumber = () => {
 
     return sign * val;
 }
+
+
+export const intervals = [2500, 2000, 1500, 1500, 1000];
+export const lifespans = [6, 5, 5, 4, 4];

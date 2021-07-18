@@ -49,3 +49,11 @@ main {
   flex-direction: row;
   justify-content: space-around;
 }
+
+#round-number {
+  width:'100%';
+  text-align: center;
+  margin: 0;
+  font-size: 24px;
+  color:#fff;
+}
