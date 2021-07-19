@@ -23,4 +23,7 @@ export interface GameMenuProps {
     status: string;
     round: number;
     startNextRound: () => void;
+    totalBubbles: number;
+    totalCorrect: number;
+    totalIncorrect: number;
 }

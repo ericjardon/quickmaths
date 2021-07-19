@@ -6,6 +6,9 @@ const GameMenu: FC<GameMenuProps> = ({
     status,
     round,
     startNextRound,
+    totalBubbles,
+    totalCorrect,
+    totalIncorrect,
 }) => {
 
     if (status === "active")
@@ -16,7 +19,7 @@ const GameMenu: FC<GameMenuProps> = ({
     if (status === "welcome")
         return (
             <div className={styles.welcomeMenu}>
-                <h2>Welcome to Quick Maths</h2>
+                <h2>Quick Maths: a Cognify spin-off</h2>
 
                 <ul>
                     <li>Test your skills by clicking on the bubbles that equal the target at the bottom</li>
@@ -25,7 +28,7 @@ const GameMenu: FC<GameMenuProps> = ({
                     <li>An incorrect bubble will decrease your score by 5 point</li>
                 </ul>
 
-                <button onClick={() => startNextRound()}>Start Game</button>
+                <button id="startButton" className="menuButton" onClick={() => startNextRound()}>Start Game</button>
             </div>
         )
 
@@ -33,8 +36,21 @@ const GameMenu: FC<GameMenuProps> = ({
         return (
             <div className={styles.endRound}>
                 <p>Time's Up!</p>
-                <p>Your round: {round}</p>
-                <button onClick={() => startNextRound()}>Next Round</button>
+                <p style={{ marginBottom: '16px' }}>Your round: {round}</p>
+                <button className="menuButton" onClick={() => startNextRound()}>Next Round</button>
+            </div>
+        )
+
+    if (status === "finished")
+        return (
+            <div className={styles.welcomeMenu}>
+                <h2>Game Over!</h2>
+                <ul>
+                    <li>You clicked on {totalCorrect} correct operations</li>
+                    <li>You clicked on {totalIncorrect} incorrect operations</li>
+                    <li>You accuracy rate is %{Math.round((totalBubbles / totalCorrect) * 1000) / 10}</li>
+                </ul>
+                <button className="menuButton" >View Scoreboard</button>
             </div>
         )
 

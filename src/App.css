@@ -57,3 +57,20 @@ main {
   font-size: 24px;
   color:#fff;
 }
+
+#startButton {
+  font-size: 16px;
+  padding:16px;
+  border-radius: 32px;
+}
+
+button.menuButton {
+  padding: 8px;
+  border-radius: 16px;
+  color:#fff;
+  background-color: dodgerblue;
+  border: 0px;
+}
+button.menuButton:active {
+  filter: grayscale(30%) !important;
+}

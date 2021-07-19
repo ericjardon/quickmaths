@@ -34,3 +34,8 @@
 .welcomeMenu ul {
     font-size: 22px;
 }
+
+.welcomeMenu h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}

@@ -1,7 +1,7 @@
 .bubble {
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 145px;
+    height: 145px;
     display:inline-flex;
     align-items: center;
     justify-content: center;
@@ -14,13 +14,13 @@
 
 
 .bubble:active {
-    filter: 'grayscale(30%) !important';
+    filter: grayscale(30%) !important;
     box-shadow: none;
 }
 
 .bubble-text {
     color: #fff;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
 }
 

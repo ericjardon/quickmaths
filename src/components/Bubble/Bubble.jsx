@@ -1,11 +1,10 @@
-import React, { useState, useEffect, FC } from 'react'
-import { Addition, Division, getRandomOperation, Product } from '../../utils/math'
-import { BubbleProps } from '../interfaces'
+import React, { useState, useEffect } from 'react'
+import { getRandomOperation, } from '../../utils/math'
 import styles from './bubble.module.css';
 import useSound from 'use-sound';
 import bubblePopSound from '../../sounds/bubble_pop.mp3';
 
-const bubbleSize = 120;
+const bubbleSize = 145;
 const containerHeight = document.getElementById('bubbles-container')?.clientHeight || 450;
 const containerWidth = document.documentElement.clientWidth;
 const maxTop = containerHeight - bubbleSize;
@@ -40,7 +39,7 @@ const Bubble = ({
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [ttl, setTTL] = useState(lifespan);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     const [operation, setOperation] = useState(getRandomOperation(target))
     const [visible, setVisible] = useState(false);
     const [active, setActive] = useState(true);
@@ -80,7 +79,7 @@ const Bubble = ({
             updateScore(multiplier);
 
         } else {
-            updateScore(Math.floor(multiplier / 2));
+            updateScore(Math.floor(multiplier / -2.0));
 
         }
         setActive(false);

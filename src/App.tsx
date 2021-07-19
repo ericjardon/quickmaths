@@ -7,6 +7,8 @@ import GameMenu from './components/GameMenu/GameMenu';
 import { getTargetNumber, intervals, lifespans } from './utils/math';
 
 
+const numberOfRounds = 5;
+
 const App: FC<any> = () => {
 
   const [gameStatus, setGameStatus] = useState<string>("welcome"); // 'welcome' | 'active' | 'endRound'
@@ -22,10 +24,9 @@ const App: FC<any> = () => {
   const [bubbleLifespan, setBubbleLifespan] = useState<number>(0);
   const [timeboxSpeed, setTimeBoxSpeed] = useState<number>(0);
 
-  /* useEffect(() => {
-    console.log("Generate new round");
-    generateNewRound();
-  }, []) */
+  const [totalCorrect, setTotalCorrect] = useState<number>(0);
+  const [totalIncorrect, setTotalIncorrect] = useState<number>(0);
+  const [totalBubbles, settotalBubbles] = useState<number>(0);
 
 
   /* Note: setInterval is a function of the window object. Whichever callback we pass to it, it will contain
@@ -45,10 +46,10 @@ const App: FC<any> = () => {
     setCurrentRound(currentRound => currentRound + 1);
 
     let target: number = getTargetNumber();
-    console.log("Starting round");
+    console.log("Start new round");
     setGameStatus("active");
     setCurrentTarget(target);
-    console.log("Next round! Target=", target);
+    console.log("Next round target =", target);
     resetBubbles();
   }
 
@@ -56,20 +57,31 @@ const App: FC<any> = () => {
     let k = bubbleKey + 1;
     setBubbles([...bubbles, k]);
     setBubbleKey(k);
+    settotalBubbles(totalBubbles => totalBubbles + 1);
   }
 
   const roundHasEnded = () => {
-    console.log("Round has ended");
-    setGameStatus("endRound");
+    console.log("Round ended");
+    if (currentRound < numberOfRounds) {
+      setGameStatus("endRound");
+
+    } else {
+      setGameStatus("finished");
+    }
+  }
+
+  const gameHasEnded = () => {
+    console.log("All rounds done");
+    setGameStatus("finished");
   }
 
   const updateScore = (points: number) => {
 
     if (points > 0) {
-      console.log("Correct");
+      setTotalCorrect(totalCorrect => totalCorrect + 1);
       setLastHit(true)
     } else {
-      console.log("Incorrect");
+      setTotalIncorrect(totalIncorrect => totalIncorrect + 1);
       setLastHit(false)
     }
 
@@ -96,7 +108,13 @@ const App: FC<any> = () => {
 
       <main>
         <div id="bubbles-container">
-          <GameMenu status={gameStatus} round={currentRound} startNextRound={generateNewRound} />
+          <GameMenu
+            status={gameStatus}
+            round={currentRound}
+            startNextRound={generateNewRound}
+            totalCorrect={totalCorrect}
+            totalIncorrect={totalIncorrect}
+            totalBubbles={totalBubbles} />
 
           {gameStatus === "active" && bubbles.map((bkey, index) => (
             <Bubble

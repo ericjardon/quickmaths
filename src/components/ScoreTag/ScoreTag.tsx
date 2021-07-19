@@ -20,7 +20,6 @@ const ScoreTag: FC<ScoreTagProps> = ({
 
     }, [scoreIncreased, score])
 
-    console.log("scoreIncreased ? ", scoreIncreased);
 
     return (
         <div className={colorClass}>
