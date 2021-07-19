@@ -1,14 +1,14 @@
-import { Addition, Division, Product } from "../utils/math";
 
 export interface ScoreTagProps {
     score: number;
+    scoreIncreased: boolean;
 }
 
 export interface BubbleProps {
     target: number,
     lifespan: number;
     multiplier: number;
-    addToScore: (x: number) => void;
+    updateScore: (x: number) => void;
 }
 
 export interface TimeBoxProps {

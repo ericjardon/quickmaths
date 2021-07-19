@@ -2,12 +2,15 @@ import React, { useState, useEffect, FC } from 'react'
 import { Addition, Division, getRandomOperation, Product } from '../../utils/math'
 import { BubbleProps } from '../interfaces'
 import styles from './bubble.module.css';
+import useSound from 'use-sound';
+import bubblePopSound from '../../sounds/bubble_pop.mp3';
 
-const bubbleSize: number = 120;
-const containerHeight: number = document.getElementById('bubbles-container')?.clientHeight || 450;
-const containerWidth: number = document.documentElement.clientWidth;
+const bubbleSize = 120;
+const containerHeight = document.getElementById('bubbles-container')?.clientHeight || 450;
+const containerWidth = document.documentElement.clientWidth;
 const maxTop = containerHeight - bubbleSize;
 const maxLeft = containerWidth - bubbleSize;
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -25,18 +28,20 @@ function getRandomPosition() {
     return { x, y };
 }
 
-const Bubble: FC<BubbleProps> = ({
+const Bubble = ({
     target,
     lifespan,
-    addToScore,
+    updateScore,
     multiplier,
 }) => {
-    const [color, setColor] = useState<string>("F0F0F0");
-    const [x, setX] = useState<number>(0);
-    const [y, setY] = useState<number>(0);
-    const [ttl, setTTL] = useState<number>(lifespan);
+    const [playPop] = useSound(bubblePopSound, { volume: '0.25' })
+
+    const [color, setColor] = useState("F0F0F0");
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
+    const [ttl, setTTL] = useState(lifespan);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [operation, setOperation] = useState<Addition | Product | Division>(getRandomOperation(target))
+    const [operation, setOperation] = useState(getRandomOperation(target))
     const [visible, setVisible] = useState(false);
     const [active, setActive] = useState(true);
 
@@ -64,19 +69,19 @@ const Bubble: FC<BubbleProps> = ({
     }, [ttl]);
 
     const selfDestruct = () => {
-        // change class to hide
         setActive(false);
     }
 
     const handleBubbleClick = () => {
         console.log(`Clicked: <${operation.toString()}> = ${operation.result}`)
+        playPop();
 
         if (operation.result === target) {
-            console.log("CORRECT")
-            addToScore(multiplier);
+            updateScore(multiplier);
+
         } else {
-            console.log("INCORRECT");
-            addToScore(-1);
+            updateScore(Math.floor(multiplier / 2));
+
         }
         setActive(false);
     }

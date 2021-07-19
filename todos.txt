@@ -1,4 +1,5 @@
-July 16
-- Implement score counting...DONE
+July 18
+- Implement sound effects on bubble click and button play
+- Implement mute button with `tabindex=0` attribute
+- Implement some form of feedback on correct/wrong clicks (green font when good, red font when bad);
 - Implement scoreboard using a txt or external database...
-- Implement increasing difficulty: lifespan shorter, interval shorter, as number round goes up

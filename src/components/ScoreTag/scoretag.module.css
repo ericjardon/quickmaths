@@ -2,12 +2,31 @@
     display: inline-flex;
     align-items: center;
     font-size: 22px;
+    font-weight: 600;
     color: #fff;
+    transition: color 0.3s linear;
+}
+
+.green-score {
+    display: inline-flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 600;
+    color:springgreen;
+
+}
+
+.red-score {
+    display: inline-flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 600;
+    color:red;
+
 }
 
 .star {
     margin-left: 8px;
     margin-right: 4px;
     color: #DAA520;
-    
 }

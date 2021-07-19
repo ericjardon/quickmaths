@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, FC } from 'react';
 import ScoreTag from './components/ScoreTag/ScoreTag';
 import Bubble from './components/Bubble/Bubble'
 import Timebox from './components/Timebox/Timebox';
@@ -14,6 +14,7 @@ const App: FC<any> = () => {
   const [bubbleKey, setBubbleKey] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [currentTarget, setCurrentTarget] = useState<number>(0);
+  const [lastHit, setLastHit] = useState<boolean>(true);
 
   const [multiplier, setMultiplier] = useState<number>(0);
   // Difficulty level depends on round number
@@ -62,13 +63,19 @@ const App: FC<any> = () => {
     setGameStatus("endRound");
   }
 
-  const addToScore = (points: number) => {
+  const updateScore = (points: number) => {
+
+    if (points > 0) {
+      console.log("Correct");
+      setLastHit(true)
+    } else {
+      console.log("Incorrect");
+      setLastHit(false)
+    }
+
     console.log("Add to score:", points);
     setScore(score => score + points);
   }
-
-  console.log("bubble lifespan is now:", bubbleLifespan);
-  console.log("timebox interval is now:", timeboxSpeed);
 
   if (gameStatus === "dev")
     return (
@@ -77,7 +84,7 @@ const App: FC<any> = () => {
           <button onClick={resetBubbles}>Reset bubbles</button>
           <button onClick={getNewBubble}>New Operation</button>
         </nav>
-        <Bubble key={1} target={currentTarget} lifespan={10} addToScore={addToScore} multiplier={multiplier} />
+        <Bubble key={1} target={currentTarget} lifespan={10} updateScore={updateScore} multiplier={multiplier} />
       </div>
     )
   else return (
@@ -96,7 +103,7 @@ const App: FC<any> = () => {
               key={index}
               target={currentTarget}
               lifespan={bubbleLifespan}
-              addToScore={addToScore}
+              updateScore={updateScore}
               multiplier={multiplier} />
           ))}
         </div>
@@ -114,7 +121,7 @@ const App: FC<any> = () => {
               intervalSeconds={timeboxSpeed} />
           </div>
           <div style={{ width: '20%', paddingTop: '25px' }}>
-            <ScoreTag score={score} />
+            <ScoreTag score={score} scoreIncreased={lastHit} />
           </div>
         </section>
       </main>

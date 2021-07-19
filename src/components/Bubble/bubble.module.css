@@ -7,6 +7,11 @@
     justify-content: center;
     box-shadow: 0 6px 18px 0 rgba(0, 29, 124, 0.08), 0 6px 5px -3px rgba(0, 0, 0, 0.12);
 }
+.bubble:hover {
+    border: 2px solid yellow;
+    z-index: 10;
+}
+
 
 .bubble:active {
     filter: 'grayscale(30%) !important';
@@ -15,6 +20,7 @@
 
 .bubble-text {
     color: #fff;
+    font-size: 18px;
     font-weight: 700;
 }
 
