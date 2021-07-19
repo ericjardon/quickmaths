@@ -1,5 +1,4 @@
-July 18
-- Implement sound effects on bubble click and button play
-- Implement mute button with `tabindex=0` attribute
-- Implement some form of feedback on correct/wrong clicks (green font when good, red font when bad);
-- Implement scoreboard using a txt or external database...
+July 19
+- Add end game sound effect
+- Implement mute button with `tabindex=0`
+- Implement scoreboard using an external database
