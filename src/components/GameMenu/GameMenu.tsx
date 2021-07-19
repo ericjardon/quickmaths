@@ -48,7 +48,8 @@ const GameMenu: FC<GameMenuProps> = ({
                 <ul>
                     <li>You clicked on {totalCorrect} correct operations</li>
                     <li>You clicked on {totalIncorrect} incorrect operations</li>
-                    <li>You accuracy rate is %{Math.round((totalBubbles / totalCorrect) * 1000) / 10}</li>
+                    <li>You accuracy rate is {Math.round((totalCorrect / (totalCorrect + totalIncorrect)) * 1000) / 10}%</li>
+                    <li>You hit rate is {Math.round((totalCorrect / totalBubbles) * 1000) / 10}%</li>
                 </ul>
                 <button className="menuButton" >View Scoreboard</button>
             </div>
