@@ -22,10 +22,10 @@ const GameMenu: FC<GameMenuProps> = ({
                 <h2>Quick Maths: a Cognify spin-off</h2>
 
                 <ul>
-                    <li>Test your skills by clicking on the bubbles that equal the target at the bottom</li>
-                    <li>You play for 5 rounds, each with a different target</li>
+                    <li>Test your numeric skills by clicking on the bubbles that equal the target at the bottom</li>
+                    <li>You play for 5 rounds, each with a different target and increasing difficulty</li>
                     <li>A correct bubble gives adds 10 pts multiplied by the round number</li>
-                    <li>An incorrect bubble will decrease your score by 5 point</li>
+                    <li>An incorrect bubble will decrease your score by half the bubble's worth</li>
                 </ul>
 
                 <button id="startButton" className="menuButton" onClick={() => startNextRound()}>Start Game</button>
@@ -51,7 +51,7 @@ const GameMenu: FC<GameMenuProps> = ({
                     <li>You accuracy rate is {Math.round((totalCorrect / (totalCorrect + totalIncorrect)) * 1000) / 10}%</li>
                     <li>You hit rate is {Math.round((totalCorrect / totalBubbles) * 1000) / 10}%</li>
                 </ul>
-                <button className="menuButton" >View Scoreboard</button>
+                <button className="menuButton" >Scoreboard (Coming soon)</button>
             </div>
         )
 
