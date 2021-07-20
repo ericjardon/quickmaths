@@ -5,6 +5,11 @@ A simple math game inspired by a Revelian's Cognify minigames.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+<img alt="in-game-screenshot" src="./screenshots/in_game_screenshot.png"/>
+
+<img alt="summary-stats-screenshot" src="./screenshots/stats_screenshot.PNG"/>
+
+--- 
 
 ## Available React Scripts
 
